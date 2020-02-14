@@ -13,7 +13,7 @@ else
     exit 1
 fi
 
-if [[ $BRANCH == "master" ]] || [[ $BRANCH == "release/Release_Banknet_"* ]]
+if [[ $BRANCH == "master" ]] || [[ $BRANCH == "release/Release_"* ]]
     then
     printf "\n"
     echo "####################################################################"
