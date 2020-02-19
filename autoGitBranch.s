@@ -1,9 +1,25 @@
 #!/bin/bash
 
-deleteBranch()
+autoDeleteBranch()
 {
-    git branch > /tmp/1.txt
-    cat /tmp/1.txt
+    branches=$(git branch | cut -c 3-)
+    END=$(date +%s)
+    for branch in $branches
+    do
+        git co $branch
+        git log -n 1 | grep -m2 Date
+        month=$(git log -n 1 | grep -m1 Date | tr -s " " | cut -d " " -f 3)
+        year=$(git log -n 1 | grep -m1 Date | tr -s " " | cut -d " " -f 6)
+        date=$(git log -n 1 | grep -m1 Date | tr -s " " | cut -d " " -f 4)
+        start=$(date -d "$month $date $year 00:00:00" +%s)
+        diff=$((($END - $start)/86400))
+        if [ diff -ge 90 ]
+        then
+            echo $diff
+            #~/Dev_Cld1_scripts/deleteBranch.s $branch
+        fi
+    done
+
 }
 
 if [ $# -ge 1 ]
